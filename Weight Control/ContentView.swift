@@ -9,25 +9,56 @@ import SwiftUI
 import ActivityKit
 
 struct ContentView: View {
+    @State private var weight = 77.5
+    private let formatter = {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }()
+    @FocusState private var isFocused: Bool
+    @Environment(\.openURL) private var openURL
+    
     var body: some View {
         VStack {
-            LiveActivityView(weight: 77.5)
-            Button("开始") {
-                startLiveActivity()
-            }
-            Button("更新") {
-                updateLiveActivity()
-            }
-            Button("结束") {
-                endLiveActivity()
-            }
+            Text("修改体重")
+                .bold()
+            TextField("体重", value: $weight, formatter: formatter)
+                .focused($isFocused)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.center)
+                .font(.largeTitle)
+                .bold()
+                .monospacedDigit()
+            Spacer()
+            buttonCard("开始", action: startLiveActivity)
+            buttonCard("更新", action: updateLiveActivity)
+            buttonCard("结束", action: endLiveActivity)
+            buttonCard("运行快捷指令记录体重", action: runShortcut)
         }
         .padding()
+        .background {
+            Color(uiColor: .systemGroupedBackground)
+                .ignoresSafeArea()
+        }
+    }
+    
+    @ViewBuilder
+    func buttonCard(_ title: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .frame(maxWidth: .infinity)
+                .padding(12)
+                .background {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(.background)
+                }
+        }
+        
     }
     
     func startLiveActivity() {
-        let attributes = WidgetsAttributes(name: "DJB")
-        let initialState = WidgetsAttributes.ContentState(value: 0)
+        let attributes = WidgetsAttributes(name: "减肥！")
+        let initialState = WidgetsAttributes.ContentState(value: weight)
         do {
             let _ = try Activity.request(attributes: attributes, contentState: initialState)
         } catch (let error) {
@@ -36,10 +67,11 @@ struct ContentView: View {
     }
     
     func updateLiveActivity() {
+        isFocused = false
         for activity in Activity<WidgetsAttributes>.activities {
             Task {
                 var state = activity.contentState
-                state.value += 1
+                state.value = weight
                 let alertConfiguration = AlertConfiguration(
                     title: "实时活动更新",
                     body: "id: \(activity.id)\nname: \(activity.attributes.name)\nvalue: \(activity.contentState.value)",
@@ -58,6 +90,10 @@ struct ContentView: View {
                 await activity.end(using: state, dismissalPolicy: .default)
             }
         }
+    }
+    
+    func runShortcut() {
+        openURL(URL(string: "shortcuts://run-shortcut?name=cn.ylq-dev.LogWeight&input=text&text=\(weight)")!)
     }
 }
 
