@@ -57,6 +57,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A15B7725293B24A6008999AF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A1EE53682936206F00F600C6 /* Weight Control.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weight Control.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1EE536B2936206F00F600C6 /* Weight_ControlApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weight_ControlApp.swift; sourceTree = "<group>"; };
 		A1EE536D2936206F00F600C6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +98,7 @@
 		A1EE535F2936206E00F600C6 = {
 			isa = PBXGroup;
 			children = (
+				A15B7725293B24A6008999AF /* README.md */,
 				A1EE53792936213200F600C6 /* .gitignore */,
 				A1EE53BB2936466300F600C6 /* Shared */,
 				A1EE536A2936206F00F600C6 /* Weight Control */,
