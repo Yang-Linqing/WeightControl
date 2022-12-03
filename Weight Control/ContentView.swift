@@ -9,7 +9,7 @@ import SwiftUI
 import ActivityKit
 
 struct ContentView: View {
-    @State private var weight = 77.5
+    @State private var weight = 0.0
     private let formatter = {
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 2
